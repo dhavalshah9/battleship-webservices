@@ -25,9 +25,41 @@ public class AttackController {
 
         BattleGrid battleGrid = repository.findByGameIdAndPlayerId(gameId, playerId);
         String resultOfAttack = "Miss";
-        if(!battleGrid.getGrid()[row][column].equals("0")){
-            resultOfAttack="Hit";
+        String shipId = battleGrid.getGrid()[row][column];
+
+        if(!shipId.equals("0") && !shipId.equals("-1")){
+            battleGrid.getGrid()[row][column] = "-1";
+            repository.save(battleGrid);
+            if(isShipSunk(battleGrid, shipId, row, column))
+                resultOfAttack="ShipSunk";
+            else
+                resultOfAttack="Hit";
         }
         return resultOfAttack;
+    }
+
+    private boolean isShipSunk(BattleGrid battleGrid, String shipId, int row, int column){
+        boolean shipSunk = true;
+        if(row-1>=0 && row-1<battleGrid.getGridSize()){
+            if(shipId.equals(battleGrid.getGrid()[row-1][column])){
+                shipSunk = false;
+            }
+        }
+        if(row+1>=0 && row+1<battleGrid.getGridSize()){
+            if(shipId.equals(battleGrid.getGrid()[row+1][column])){
+                shipSunk = false;
+            }
+        }
+        if(column-1>=0 && column-1<battleGrid.getGridSize()){
+            if(shipId.equals(battleGrid.getGrid()[row][column-1])){
+                shipSunk = false;
+            }
+        }
+        if(column+1>=0 && column+1<battleGrid.getGridSize()){
+            if(shipId.equals(battleGrid.getGrid()[row][column+1])){
+                shipSunk = false;
+            }
+        }
+        return shipSunk;
     }
 }
