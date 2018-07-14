@@ -1,6 +1,7 @@
 package com.dhaval.battleship.webservices;
 
 import com.dhaval.battleship.Exceptions.BattleGridException;
+import com.dhaval.battleship.Exceptions.GameDoesNotExistException;
 import com.dhaval.battleship.Exceptions.ShipPlacementException;
 import com.dhaval.battleship.beans.BattleGrid;
 import com.dhaval.battleship.beans.ShipPosition;
@@ -56,9 +57,10 @@ public class BattlegridController {
 
     @RequestMapping(value = "/battlegrid", method = RequestMethod.GET)
     public BattleGrid retrieveBattleGrid(@RequestParam(value = "gameId") int gameId,
-                                         @RequestParam(value = "playerId") String playerId) throws ShipPlacementException, BattleGridException {
+                                         @RequestParam(value = "playerId") String playerId) throws GameDoesNotExistException {
         BattleGrid battleGrid = repository.findByGameIdAndPlayerId(gameId, playerId);
-
+        if(null==battleGrid)
+            throw new GameDoesNotExistException();
         return battleGrid;
     }
 
