@@ -1,6 +1,6 @@
 package com.dhaval.battleship.webservices;
 
-import com.dhaval.battleship.Exceptions.GameDoesNotExistException;
+import com.dhaval.battleship.exceptions.GameDoesNotExistException;
 import com.dhaval.battleship.beans.BattleGrid;
 import com.dhaval.battleship.dao.BattlegridRepository;
 import org.springframework.beans.factory.annotation.Autowired;

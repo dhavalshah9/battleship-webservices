@@ -1,8 +1,8 @@
 package com.dhaval.battleship.webservices;
 
-import com.dhaval.battleship.Exceptions.BattleGridException;
-import com.dhaval.battleship.Exceptions.GameDoesNotExistException;
-import com.dhaval.battleship.Exceptions.ShipPlacementException;
+import com.dhaval.battleship.exceptions.BattleGridException;
+import com.dhaval.battleship.exceptions.GameDoesNotExistException;
+import com.dhaval.battleship.exceptions.ShipPlacementException;
 import com.dhaval.battleship.beans.BattleGrid;
 import com.dhaval.battleship.beans.ShipPosition;
 import com.dhaval.battleship.dao.BattlegridRepository;
