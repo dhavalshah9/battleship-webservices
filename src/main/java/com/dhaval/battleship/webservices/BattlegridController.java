@@ -21,9 +21,9 @@ public class BattlegridController {
     BattlegridRepository repository;
 
     @RequestMapping(value = "/battlegrid", method = RequestMethod.POST)
-    public BattleGrid updateBattleGrid(@RequestParam(value = "gameId") int gameId,
-                                       @RequestParam(value = "playerId") String playerId,
-                                       @RequestBody List<ShipPosition> shipPositions) throws ShipPlacementException, BattleGridException {
+    public String updateBattleGrid(@RequestParam(value = "gameId") int gameId,
+                                   @RequestParam(value = "playerId") String playerId,
+                                   @RequestBody List<ShipPosition> shipPositions) throws ShipPlacementException, BattleGridException {
         BattleGrid battleGrid = repository.findByGameIdAndPlayerId(gameId, playerId);
         if (battleGrid!=null) {
             for (ShipPosition currShipPosition : shipPositions) {
@@ -48,18 +48,27 @@ public class BattlegridController {
                     }
                 }
             }
+            repository.save(battleGrid);
         }else
             throw new BattleGridException("No battlegrid found for gameId & playerId combination");
+
+        return ("Battle Grid updated successfully for "+ playerId +" in " + gameId + " game");
+    }
+
+    @RequestMapping(value = "/battlegrid", method = RequestMethod.GET)
+    public BattleGrid retrieveBattleGrid(@RequestParam(value = "gameId") int gameId,
+                                         @RequestParam(value = "playerId") String playerId) throws ShipPlacementException, BattleGridException {
+        BattleGrid battleGrid = repository.findByGameIdAndPlayerId(gameId, playerId);
 
         return battleGrid;
     }
 
     private void placeShip(BattleGrid battleGrid, String shipId, int x, int y) throws ShipPlacementException {
 
-        if(battleGrid.getGrid()[x][y].equals("0"))
+        if(battleGrid.getGridSize()>x && battleGrid.getGridSize()>y && battleGrid.getGrid()[x][y].equals("0"))
             battleGrid.getGrid()[x][y] = shipId;
         else
-            throw new ShipPlacementException("Ship placement collides with an existing ship");
+            throw new ShipPlacementException();
 
     }
 }
