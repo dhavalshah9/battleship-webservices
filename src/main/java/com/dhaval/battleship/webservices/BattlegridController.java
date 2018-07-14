@@ -10,7 +10,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -52,7 +51,7 @@ public class BattlegridController {
         }else
             throw new BattleGridException("No battlegrid found for gameId & playerId combination");
 
-        return ("Battle Grid updated successfully for "+ playerId +" in " + gameId + " game");
+        return ("Battle Grid updated successfully for player "+ playerId +" in " + gameId + " game");
     }
 
     @RequestMapping(value = "/battlegrid", method = RequestMethod.GET)
