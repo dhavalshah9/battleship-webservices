@@ -42,12 +42,10 @@ public class NewGameController {
 
     private BattleGrid initializeBattleGrid(int gameId, int gridSize, String playerId){
         BattleGrid battleGrid = new BattleGrid(gameId, gridSize, playerId);
-        battleGrid = repository.save(battleGrid);
-
         for (String[] gridRow:battleGrid.getGrid()){
             Arrays.fill(gridRow, "0");
         }
-
+        battleGrid = repository.save(battleGrid);
         return battleGrid;
     }
 }
