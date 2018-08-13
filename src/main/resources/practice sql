@@ -1,0 +1,27 @@
+select e.name, d.name, e.salary as max_salary
+  from employee e inner join
+       (select max(salary) as salary, dept_id as id from employee group by dept_id) as max_salary_data
+  on (e.salary = max_salary_data.salary and e.dept_id = max_salary_data.id) inner join department d on (e.dept_id = d.id)
+;
+
+select d.id, d.name, SUM(e.salary) as temp
+from employee e INNER join department d on e.dept_id = d.id
+group by d.id, d.name
+  having temp>15000
+order by temp desc;
+
+update department set name = 'tech'
+where name='technology';
+
+with result as (
+  SELECT
+    salary,
+    dense_rank() over (
+    order by salary desc) as rank_we
+  from employee
+)
+select rank_we, COUNT(rank_we) from result where rank_we >2
+group by rank_we;
+
+
+select * from employee
